@@ -631,8 +631,9 @@
 .about-images-wrapper {
   grid-column-gap: 10px;
   grid-row-gap: 10px;
-  background-image: none;
-  background-size: auto;
+  background-image: url('../images/irmak_image_2.jpeg');
+  background-size: cover;
+  background-position: 50% 50%;
   border-radius: 10px;
   flex: 0 auto;
   order: -1;
