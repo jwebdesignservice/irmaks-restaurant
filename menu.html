@@ -22,11 +22,7 @@
     }
     .menu-page-header {
       text-align: center;
-      margin-bottom: 40px;
-    }
-    .menu-page-header a {
-      display: inline-block;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
     .menu-page-title {
       color: #c9a84c;
@@ -39,19 +35,39 @@
       color: rgba(255,255,255,0.6);
       font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
+      margin: 0 0 20px;
     }
-    .menu-images-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
+    .menu-pdf-container {
+      max-width: 960px;
       margin: 0 auto;
-    }
-    .menu-images-grid img {
-      width: 100%;
+      background: #fff;
       border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .menu-pdf-container embed,
+    .menu-pdf-container iframe {
+      width: 100%;
+      height: 85vh;
+      min-height: 600px;
+      border: none;
       display: block;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    }
+    .menu-pdf-fallback {
+      padding: 40px;
+      text-align: center;
+      color: #333;
+      font-family: 'Inter', sans-serif;
+    }
+    .menu-pdf-fallback a {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 28px;
+      background: #1a2e45;
+      color: #c9a84c;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
     }
     .back-link {
       display: inline-flex;
@@ -62,8 +78,24 @@
       font-size: 0.875rem;
       text-decoration: none;
       transition: color 0.2s;
+      margin-bottom: 24px;
     }
     .back-link:hover { color: #c9a84c; }
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 10px 24px;
+      background: #c9a84c;
+      color: #1a2e45;
+      text-decoration: none;
+      border-radius: 4px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+    .download-btn:hover { background: #e0bb5f; }
   </style>
 </head>
 <body class="body">
@@ -104,13 +136,35 @@
       <p class="menu-page-subtitle">Bold, Fresh &amp; Truly Turkish</p>
     </div>
 
-    <div class="menu-images-grid">
-      <img src="images/menu_gatefold_01.jpg" alt="Menu — Page 1" loading="lazy">
-      <img src="images/menu_gatefold_02.jpg" alt="Menu — Page 2" loading="lazy">
-      <img src="images/menu_a4_01.jpg" alt="Menu — Page 3" loading="lazy">
-      <img src="images/menu_a4_02.jpg" alt="Menu — Page 4" loading="lazy">
+    <div class="menu-pdf-container">
+      <embed src="documents/menu.pdf" type="application/pdf">
+      <div class="menu-pdf-fallback" style="display:none">
+        <p>Your browser cannot display PDFs inline.</p>
+        <a href="documents/menu.pdf" download>Download Menu PDF</a>
+      </div>
+    </div>
+
+    <div style="text-align:center">
+      <a href="documents/menu.pdf" download class="download-btn">↓ Download Menu</a>
     </div>
   </div>
+
+  <script>
+    // Show fallback if embed fails to load (mobile browsers)
+    const embed = document.querySelector('.menu-pdf-container embed');
+    const fallback = document.querySelector('.menu-pdf-fallback');
+    if (embed) {
+      embed.onerror = function() {
+        embed.style.display = 'none';
+        fallback.style.display = 'block';
+      };
+      // On iOS/mobile, embed often silently fails — swap to fallback after a short delay
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        embed.style.display = 'none';
+        fallback.style.display = 'block';
+      }
+    }
+  </script>
 
   <script src="js/webflow.js" type="text/javascript"></script>
 </body>
