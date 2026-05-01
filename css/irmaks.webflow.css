@@ -734,8 +734,7 @@
   align-items: flex-start;
   width: 50%;
   height: auto;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding: 2rem;
   display: flex;
   position: relative;
   overflow: hidden;
