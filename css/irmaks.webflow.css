@@ -2685,6 +2685,8 @@
 
   .get-in-touch-left-content {
     grid-column-gap: 0px;
+    grid-row-gap: 32px;
+    grid-template-columns: 1fr;       /* single column on phone — stop email/phone colliding */
   }
 
   .details-wrapper.flex {
@@ -2699,6 +2701,7 @@
 
   .contact-details-linklink, .contact-details-linklink.no-underline {
     font-size: .85rem;
+    word-break: break-word;            /* allow long emails to wrap if needed */
   }
 
   .nav-icon {
