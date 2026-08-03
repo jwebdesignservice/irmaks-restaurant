@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html data-wf-page="drinks" data-wf-site="691c824788377ae224b4cf95">
+<head>
+  <meta charset="utf-8">
+  <title>Drinks Menu — Irmak's Restaurant</title>
+  <meta content="Cocktails, wines, raki, beers and hot drinks at Irmak Restaurant, Aberdeen." name="description">
+  <meta content="Drinks Menu — Irmak's Restaurant" property="og:title">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/irmaks.webflow.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">WebFont.load({  google: {    families: ["Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic","Droid Serif:400,400italic,700,700italic","Inter:300,400,500,600,700"]  }});</script>
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <style>
+    /* The Webflow navbar is position:absolute so it can float over the hero on
+       the homepage. These inner pages have no hero, so it lands on top of the
+       content instead — put it back in the flow. */
+    .navbar { position: relative; }
+
+    /* .nav-logo has no rules anywhere in the Webflow stylesheet, so the logo
+       rendered at its natural 414x355. Size it explicitly rather than relying
+       on a class that does not exist. */
+    .brand img { height: 64px; width: auto; }
+    @media screen and (max-width: 767px) {
+      .brand img { height: 52px; }
+    }
+
+    /* Mirrors menu.html so the two menu pages read as a pair. */
+    .drinks-page-wrapper {
+      background-color: #e6eef7;
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
+    .drinks-page-header { text-align: center; margin-bottom: 32px; }
+    .drinks-page-title {
+      color: #c9a84c;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .drinks-page-subtitle {
+      color: rgba(0,0,0,0.6);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      margin: 0 0 20px;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: rgba(0,0,0,0.65);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color 0.2s;
+      margin-bottom: 24px;
+    }
+    .back-link:hover { color: #c9a84c; }
+
+    .drinks-sheet {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      padding: 28px 22px 32px;
+    }
+    /* Two columns on desktop, one on a phone. */
+    .drinks-columns { column-count: 1; }
+    @media screen and (min-width: 860px) {
+      .drinks-sheet { padding: 40px 44px 44px; }
+      .drinks-columns { column-count: 2; column-gap: 48px; }
+    }
+
+    .drinks-group {
+      break-inside: avoid-column;
+      page-break-inside: avoid;
+      margin: 0 0 30px;
+    }
+    .drinks-group h2 {
+      color: #1a2e45;
+      font-family: 'Droid Serif', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0 0 4px;
+    }
+    .drinks-group h3 {
+      color: #c9a84c;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 18px 0 6px;
+    }
+    .drinks-rule { border: 0; border-top: 1px solid rgba(201,168,76,0.5); margin: 0 0 14px; }
+    .drinks-note {
+      color: rgba(0,0,0,0.55);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-style: italic;
+      margin: 0 0 10px;
+    }
+
+    .drinks-list { list-style: none; margin: 0; padding: 0; }
+    .drinks-list li { padding: 7px 0; border-bottom: 1px dotted rgba(0,0,0,0.12); }
+    .drinks-list li:last-child { border-bottom: 0; }
+    .drink-row { display: flex; align-items: baseline; gap: 12px; }
+    .drink-name {
+      flex: 1 1 auto;
+      color: #1a2e45;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .drink-price {
+      flex: 0 0 auto;
+      color: #1a2e45;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .drink-desc {
+      color: rgba(0,0,0,0.6);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-style: italic;
+      line-height: 1.45;
+      margin: 2px 0 0;
+    }
+
+    /* Wines and raki carry several prices per row. */
+    .price-table { width: 100%; border-collapse: collapse; }
+    .price-table th {
+      color: rgba(0,0,0,0.5);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-align: right;
+      padding: 0 0 6px 10px;
+      white-space: nowrap;
+    }
+    .price-table th:first-child { text-align: left; padding-left: 0; }
+    .price-table td {
+      padding: 7px 0 7px 10px;
+      border-bottom: 1px dotted rgba(0,0,0,0.12);
+      text-align: right;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.92rem;
+      color: #1a2e45;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .price-table td:first-child {
+      text-align: left;
+      padding-left: 0;
+      width: 99%;
+      white-space: normal;
+    }
+    .price-table tr:last-child td { border-bottom: 0; }
+
+    /* Compact grids for the many-cheap-items sections. */
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2px 24px;
+    }
+    .mini-grid .drink-row { padding: 5px 0; border-bottom: 1px dotted rgba(0,0,0,0.1); }
+    .mini-grid .drink-name, .mini-grid .drink-price { font-size: 0.88rem; font-weight: 400; }
+
+    .drinks-footer {
+      max-width: 1000px;
+      margin: 22px auto 0;
+      text-align: center;
+      color: rgba(0,0,0,0.6);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+    }
+    .drinks-footer a { color: #1a2e45; }
+    .drinks-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 18px; padding: 12px 28px;
+      background: #c9a84c; color: #1a2e45;
+      text-decoration: none; border-radius: 4px;
+      font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.875rem;
+    }
+    .drinks-cta:hover { background: #e0bb5f; }
+  </style>
+  <!-- Google tag (gtag.js) — Google Ads AW-17805106664 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17805106664"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17805106664');
+  </script>
+</head>
+<body class="body">
+  <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
+    <div class="nav-container">
+      <div class="nav-banner">
+        <div class="nav-banner-container">
+          <div class="details-wrapper flex">
+            <div class="small-text">Call Us:</div>
+            <a href="tel:01224023161" class="contact-details-linklink no-underline">01224 023161</a>
+          </div>
+        </div>
+      </div>
+      <div class="w-layout-blockcontainer main-nav-container w-container">
+        <a href="index.html" class="brand w-nav-brand">
+          <img src="images/imrak-logo.png" loading="lazy" alt="Irmak Restaurant Logo" class="image">
+        </a>
+        <nav role="navigation" class="nav-menu w-nav-menu">
+          <a href="index.html" class="nav-link w-nav-link">Home</a>
+          <a href="index.html#about-us" class="nav-link w-nav-link">About</a>
+          <a href="index.html#Menu" class="nav-link w-nav-link">Menu</a>
+          <a href="jobs.html" class="nav-link w-nav-link">Jobs</a>
+          <a href="https://irmaksrestaurant.giftpro.co.uk/vouchers/monetary-voucher/" target="_blank" rel="noopener" class="nav-link w-nav-link">Gift Cards</a>
+          <a href="index.html#Contact-Us" class="nav-link w-nav-link">Contact</a>
+          <a data-wf--button-cta--variant="base" href="https://web.dojo.app/create_booking/vendor/YZm4rbEx15K4Q5IJ_BrUnInyq3LJugnu80pndM8SNXo_restaurant" target="_blank" rel="noopener" class="button-cta w-inline-block">
+            <div class="button-text">Book Now</div>
+          </a>
+        </nav>
+        <div class="menu-button w-nav-button">
+          <div class="icon w-icon-nav-menu"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="drinks-page-wrapper">
+    <div class="drinks-page-header">
+      <a href="index.html#Drinks" class="back-link">← Back to Home</a>
+      <h1 class="drinks-page-title">Drinks Menu</h1>
+      <p class="drinks-page-subtitle">Cocktails, Turkish wines, raki and more</p>
+    </div>
+
+    <div class="drinks-sheet">
+      <div class="drinks-columns">
+
+        <section class="drinks-group">
+          <h2>Signature Cocktails</h2>
+          <hr class="drinks-rule">
+          <ul class="drinks-list">
+            <li>
+              <div class="drink-row"><span class="drink-name">Baklava Cloud</span><span class="drink-price">£12</span></div>
+              <p class="drink-desc">Bourbon, pistachio, orgeat, white chocolate, cream</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Lychee Pearl</span><span class="drink-price">£11</span></div>
+              <p class="drink-desc">Vodka, lychee, pomegranate, lemon, topped with soda</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Lemon Basil Bloom</span><span class="drink-price">£11</span></div>
+              <p class="drink-desc">Rum, elderflower, basil, limoncello, lemon</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Elder Peach</span><span class="drink-price">£11</span></div>
+              <p class="drink-desc">Vodka, peach, elderflower, lemon</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Spiced Passion Margarita</span><span class="drink-price">£10.50</span></div>
+              <p class="drink-desc">Tequila, passion fruit, vanilla, chilli, lime</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Berry Ember</span><span class="drink-price">£11</span></div>
+              <p class="drink-desc">Reposado tequila, maraschino, cranberry, lime</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Strawberry Kiwi</span><span class="drink-price">£10.50</span></div>
+              <p class="drink-desc">Strawberry gin, cream, peach, raspberry</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Spritz</h2>
+          <hr class="drinks-rule">
+          <ul class="drinks-list">
+            <li><div class="drink-row"><span class="drink-name">Aperol Spritz</span><span class="drink-price">£9</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Limoncello Spritz</span><span class="drink-price">£9</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Hugo Spritz</span><span class="drink-price">£9</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Lychee Spritz</span><span class="drink-price">£9</span></div></li>
+          </ul>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Classic Cocktails</h2>
+          <hr class="drinks-rule">
+          <ul class="drinks-list">
+            <li>
+              <div class="drink-row"><span class="drink-name">Whisky Sour</span><span class="drink-price">£10.50</span></div>
+              <p class="drink-desc">Whisky, lemon, egg white</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Espresso Martini</span><span class="drink-price">£10.50</span></div>
+              <p class="drink-desc">Vodka, espresso, coffee, vanilla</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Margarita</span><span class="drink-price">£10.50</span></div>
+              <p class="drink-desc">Tequila, triple sec, lime</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Negroni</span><span class="drink-price">£10.50</span></div>
+              <p class="drink-desc">Gin, Campari, sweet vermouth</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Sex on the Beach</span><span class="drink-price">£10.50</span></div>
+              <p class="drink-desc">Vodka, peach schnapps, orange, cranberry</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Mocktails</h2>
+          <hr class="drinks-rule">
+          <ul class="drinks-list">
+            <li>
+              <div class="drink-row"><span class="drink-name">Passion Lover</span><span class="drink-price">£7.50</span></div>
+              <p class="drink-desc">Herbal dry gin 0%, passion fruit, pineapple, lime</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Herbal Apple Smash</span><span class="drink-price">£7.50</span></div>
+              <p class="drink-desc">Herbal dry gin 0%, apple, orange oil extract, lemon</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Pink Colada</span><span class="drink-price">£7.50</span></div>
+              <p class="drink-desc">Pineapple, coconut colada, lime, vanilla</p>
+            </li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Virgin Mojito</span><span class="drink-price">£7.50</span></div>
+              <p class="drink-desc">Lime, mint, sugar, soda</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Wines</h2>
+          <hr class="drinks-rule">
+
+          <h3>Red Wines</h3>
+          <table class="price-table">
+            <thead>
+              <tr><th scope="col">Wine</th><th scope="col">175ml</th><th scope="col">250ml</th><th scope="col">Bottle</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Doluca Red, Turkey</strong><p class="drink-desc">Light-bodied, soft red fruit, smooth and easy-drinking</p></td>
+                <td>£5.50</td><td>£6.50</td><td>£21</td>
+              </tr>
+              <tr>
+                <td><strong>Yakut, Turkey</strong><p class="drink-desc">Medium-bodied, ripe cherry and plum, balanced finish</p></td>
+                <td>£6.00</td><td>£7.25</td><td>£22.50</td>
+              </tr>
+              <tr>
+                <td><strong>Rioja</strong><p class="drink-desc">Smooth and rounded, red berries, vanilla and gentle spice</p></td>
+                <td>£7.00</td><td>£8.50</td><td>£24</td>
+              </tr>
+              <tr>
+                <td><strong>Malbec</strong><p class="drink-desc">Rich and velvety, dark fruit, blackberry and soft spice</p></td>
+                <td>£6.25</td><td>£7.75</td><td>£23</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>White Wines</h3>
+          <table class="price-table">
+            <thead>
+              <tr><th scope="col">Wine</th><th scope="col">175ml</th><th scope="col">250ml</th><th scope="col">Bottle</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Doluca White, Turkey</strong><p class="drink-desc">Light and fresh, citrus-led with a crisp finish</p></td>
+                <td>£5.50</td><td>£6.50</td><td>£21</td>
+              </tr>
+              <tr>
+                <td><strong>Çankaya, Turkey</strong><p class="drink-desc">Fresh and aromatic, green apple, citrus and floral notes</p></td>
+                <td>£6.00</td><td>£7.25</td><td>£22.50</td>
+              </tr>
+              <tr>
+                <td><strong>Pinot Grigio</strong><p class="drink-desc">Crisp and clean, pear, apple and light citrus</p></td>
+                <td>£6.75</td><td>£8.25</td><td>£23</td>
+              </tr>
+              <tr>
+                <td><strong>Sauvignon Blanc</strong><p class="drink-desc">Zesty and vibrant, tropical fruit, gooseberry and citrus</p></td>
+                <td>£7.00</td><td>£9.00</td><td>£25</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Rosé Wines</h3>
+          <table class="price-table">
+            <thead>
+              <tr><th scope="col">Wine</th><th scope="col">175ml</th><th scope="col">250ml</th><th scope="col">Bottle</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Doluca Rosé, Turkey</strong><p class="drink-desc">Fresh and delicate, strawberry and red berry notes</p></td>
+                <td>£5.50</td><td>£6.50</td><td>£21</td>
+              </tr>
+              <tr>
+                <td><strong>Zinfandel</strong><p class="drink-desc">Off-dry and fruity, strawberry, watermelon and a soft finish</p></td>
+                <td>£5.75</td><td>£7.50</td><td>£21</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Sparkling</h2>
+          <hr class="drinks-rule">
+          <table class="price-table">
+            <thead>
+              <tr><th scope="col">Wine</th><th scope="col">Glass</th><th scope="col">Bottle</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Prosecco</strong><p class="drink-desc">Light, crisp and refreshing with green apple and citrus</p></td>
+                <td>£8</td><td>£28</td>
+              </tr>
+              <tr>
+                <td><strong>Moët &amp; Chandon Brut Impérial</strong><p class="drink-desc">Elegant and refined, brioche, apple and citrus notes</p></td>
+                <td>—</td><td>£65</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Beer</h2>
+          <hr class="drinks-rule">
+
+          <h3>Efes on Tap</h3>
+          <ul class="drinks-list">
+            <li><div class="drink-row"><span class="drink-name">Full Pint</span><span class="drink-price">£6.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Half Pint</span><span class="drink-price">£4.50</span></div></li>
+          </ul>
+
+          <h3>Bottle Beers</h3>
+          <ul class="drinks-list">
+            <li><div class="drink-row"><span class="drink-name">Efes</span><span class="drink-price">£5.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Peroni</span><span class="drink-price">£5.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Peroni 0.0%</span><span class="drink-price">£5</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Tuborg Gold</span><span class="drink-price">£5</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Rekorderlig Strawberry &amp; Lime</span><span class="drink-price">£5.25</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Rekorderlig Passionfruit</span><span class="drink-price">£5.25</span></div></li>
+          </ul>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Raki</h2>
+          <hr class="drinks-rule">
+
+          <h3>By Measure</h3>
+          <table class="price-table">
+            <thead>
+              <tr><th scope="col">Raki</th><th scope="col">2cl (20ml)</th><th scope="col">4cl (40ml)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Yeni Raki</strong></td><td>£5.50</td><td>£10</td></tr>
+              <tr><td><strong>Tekirdağ Gold</strong></td><td>£6.50</td><td>£12</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Bottle Prices</h3>
+          <ul class="drinks-list">
+            <li><div class="drink-row"><span class="drink-name">Yeni Raki 20cl</span><span class="drink-price">£20</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Yeni Raki 35cl</span><span class="drink-price">£34</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Yeni Raki 70cl</span><span class="drink-price">£65</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Tekirdağ Gold 20cl</span><span class="drink-price">£24</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Tekirdağ Gold 35cl</span><span class="drink-price">£39</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Tekirdağ Gold 70cl</span><span class="drink-price">£75</span></div></li>
+          </ul>
+        </section>
+
+        <section class="drinks-group">
+          <h2>House Spirits</h2>
+          <hr class="drinks-rule">
+          <p class="drinks-note">All prices are for a 25ml serving</p>
+          <ul class="drinks-list">
+            <li><div class="drink-row"><span class="drink-name">Hendrick's Gin</span><span class="drink-price">£4.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Tanqueray London Dry Gin</span><span class="drink-price">£4</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Beefeater Pink Strawberry Gin</span><span class="drink-price">£4</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Bacardi Carta Blanca</span><span class="drink-price">£3.75</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Havana Club 7 Años</span><span class="drink-price">£4.75</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Kraken Black Spiced Rum</span><span class="drink-price">£4.75</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Patrón Silver</span><span class="drink-price">£6</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Reposado Tequila</span><span class="drink-price">£5</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Absolut Vodka</span><span class="drink-price">£4.50</span></div></li>
+          </ul>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Hot Drinks</h2>
+          <hr class="drinks-rule">
+          <ul class="drinks-list">
+            <li><div class="drink-row"><span class="drink-name">Americano</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Latte</span><span class="drink-price">£3</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Cappuccino</span><span class="drink-price">£3</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Flat White</span><span class="drink-price">£3</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Espresso</span><span class="drink-price">£2</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Double Espresso</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Mocha</span><span class="drink-price">£3</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Turkish Coffee</span><span class="drink-price">£4</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Irish Coffee</span><span class="drink-price">£8</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Hot Chocolate</span><span class="drink-price">£3</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Turkish Apple Tea</span><span class="drink-price">£3</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Mint Tea</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Earl Grey</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Camomile Tea</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Lemon Tea</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Green Tea</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Decaf Tea / Coffee</span><span class="drink-price">£2.50</span></div></li>
+          </ul>
+
+          <h3>Syrups</h3>
+          <p class="drinks-note">Extra syrup — 50p each</p>
+          <div class="mini-grid">
+            <div class="drink-row"><span class="drink-name">Caramel</span></div>
+            <div class="drink-row"><span class="drink-name">Almond</span></div>
+            <div class="drink-row"><span class="drink-name">Vanilla</span></div>
+            <div class="drink-row"><span class="drink-name">Pistachio</span></div>
+          </div>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Waters</h2>
+          <hr class="drinks-rule">
+          <ul class="drinks-list">
+            <li><div class="drink-row"><span class="drink-name">Small Still Water</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Small Sparkling Water</span><span class="drink-price">£2.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Large Still Water</span><span class="drink-price">£4</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Large Sparkling Water</span><span class="drink-price">£4</span></div></li>
+          </ul>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Soft Drinks</h2>
+          <hr class="drinks-rule">
+          <div class="mini-grid">
+            <div class="drink-row"><span class="drink-name">Coca-Cola</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Tonic Water</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Irn-Bru</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Ginger Beer</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Diet Coca-Cola</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Ginger Ale</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Fanta Orange</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Soda Water</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Lemonade</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Ayran</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Appletiser</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Şalgam</span><span class="drink-price">£3</span></div>
+          </div>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Juices</h2>
+          <hr class="drinks-rule">
+          <div class="mini-grid">
+            <div class="drink-row"><span class="drink-name">Orange Juice</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Cranberry Juice</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Apple Juice</span><span class="drink-price">£3</span></div>
+            <div class="drink-row"><span class="drink-name">Pineapple Juice</span><span class="drink-price">£3</span></div>
+          </div>
+        </section>
+
+        <section class="drinks-group">
+          <h2>Desserts</h2>
+          <hr class="drinks-rule">
+          <ul class="drinks-list">
+            <li><div class="drink-row"><span class="drink-name">Künefe</span><span class="drink-price">£7.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Baklava</span><span class="drink-price">£6.50</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Apple Crumble</span><span class="drink-price">£6</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Carrot Cake</span><span class="drink-price">£6</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Fudge Cake</span><span class="drink-price">£6</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Rice Pudding</span><span class="drink-price">£6</span></div></li>
+            <li><div class="drink-row"><span class="drink-name">Vanilla Cheesecake</span><span class="drink-price">£6</span></div></li>
+            <li>
+              <div class="drink-row"><span class="drink-name">Ice Cream, 3 Scoops</span><span class="drink-price">£4.50</span></div>
+              <p class="drink-desc">Vanilla or chocolate</p>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+    </div>
+
+    <div class="drinks-footer">
+      <p>Please ask our team about allergens.</p>
+      <p>
+        Follow us
+        <a href="https://www.instagram.com/irmakrestaurantaberdeen?igsh=MXZ5MXF3ZDd5cmt1cQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener">@irmakrestaurantaberdeen</a>
+      </p>
+      <a data-wf--button-cta--variant="base" href="https://web.dojo.app/create_booking/vendor/YZm4rbEx15K4Q5IJ_BrUnInyq3LJugnu80pndM8SNXo_restaurant" target="_blank" rel="noopener" class="drinks-cta">Book Now</a>
+    </div>
+  </div>
+
+  <script src="js/webflow.js" type="text/javascript"></script>
+</body>
+</html>

@@ -15,6 +15,18 @@
   <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="images/webclip.png" rel="apple-touch-icon">
   <style>
+    /* The Webflow navbar is position:absolute so it can float over the hero on
+       the homepage. This page has no hero, so it landed on top of the content.
+       Pre-existing bug, fixed alongside the same one on drinks.html. */
+    .navbar { position: relative; }
+
+    /* .nav-logo has no rules anywhere in the Webflow stylesheet, so the logo
+       rendered at its natural 414x355. */
+    .brand img { height: 64px; width: auto; }
+    @media screen and (max-width: 767px) {
+      .brand img { height: 52px; }
+    }
+
     .menu-page-wrapper {
       background-color: #e6eef7;
       min-height: 100vh;
@@ -107,9 +119,9 @@
           </div>
         </div>
       </div>
-      <div class="main-nav-container">
+      <div class="w-layout-blockcontainer main-nav-container w-container">
         <a href="index.html" class="brand w-nav-brand">
-          <img src="images/imrak-logo.png" loading="lazy" alt="Irmak Restaurant Logo" class="nav-logo">
+          <img src="images/imrak-logo.png" loading="lazy" alt="Irmak Restaurant Logo" class="image">
         </a>
         <nav role="navigation" class="nav-menu w-nav-menu">
           <a href="index.html" class="nav-link w-nav-link">Home</a>
