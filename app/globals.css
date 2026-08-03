@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-navy font-sans text-white antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif;
+  }
+
+  /* Visible keyboard focus everywhere, on a navy background. */
+  :focus-visible {
+    outline: 2px solid theme('colors.gold');
+    outline-offset: 3px;
+  }
+
+  /* iOS zooms the page when a font-size under 16px gets focus. */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  /* Mirrors .button-cta / .button-text from the Webflow stylesheet. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-cta bg-gold px-7 py-4
+           font-sans text-base font-semibold text-navy transition-all duration-200
+           hover:bg-white disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-cta border border-white/25
+           bg-transparent px-6 py-3 font-sans text-base font-medium text-white
+           transition-all duration-200 hover:border-gold hover:text-gold;
+  }
+
+  /* One quiet surface for the whole form, rather than a box per section. */
+  .card {
+    @apply rounded-xl border border-white/10 bg-white/[0.03];
+  }
+
+  /* Every admin screen and the nav share this, so nothing can drift out of
+     alignment. Change the width here and the whole panel follows. */
+  .admin-container {
+    @apply mx-auto w-[94%] max-w-3xl;
+  }
+
+  .field-label {
+    @apply mb-1.5 block font-sans text-sm font-medium text-white/60;
+  }
+
+  .field-input {
+    @apply w-full rounded-cta border border-white/15 bg-white/[0.04] px-4 py-3
+           font-sans text-white placeholder-white/35 transition-colors
+           hover:border-white/25 focus:border-gold focus:outline-none;
+  }
+
+  /* Native select needs its own arrow once appearance is stripped. */
+  .field-select {
+    @apply field-input cursor-pointer appearance-none bg-no-repeat pr-11;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right 0.9rem center;
+    background-size: 1rem;
+  }
+
+  .field-select option {
+    @apply bg-navy text-white;
+  }
+
+  /* Scroll without the native bar. Only for strips that signal their own
+     overflow another way — see DateStrip's edge fades and arrows. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

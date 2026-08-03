@@ -1,5 +1,14 @@
 .vercel
 node_modules/
-package-lock.json
-package.json
+.next/
+next-env.d.ts
+*.tsbuildinfo
 convert-menu.js
+
+# Local dev tooling, not project config
+.claude/
+
+# Secrets: Supabase service role key, Resend key, Turnstile secret
+.env
+.env.local
+.env*.local
